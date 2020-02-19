@@ -1,6 +1,5 @@
 package com.example.demo.services;
 
-import java.util.Arrays;
 import java.util.Date;
 import java.util.Optional;
 
@@ -13,6 +12,7 @@ import com.example.demo.domain.ItemPedido;
 import com.example.demo.domain.PagamentoComBoleto;
 import com.example.demo.domain.Pedido;
 import com.example.demo.domain.enums.EstadoPagamento;
+import com.example.demo.repositories.ClienteRepository;
 import com.example.demo.repositories.ItemPedidoRepository;
 import com.example.demo.repositories.PagamentoRepository;
 import com.example.demo.repositories.PedidoRepository;
@@ -35,6 +35,8 @@ public class PedidoService {
 	@Autowired
 	private ProdutoService produtoService;
 	
+	@Autowired
+	private ClienteService clienteService;
 	
 	public Pedido find(Integer id) {
 		Optional<Pedido> obj = repo.findById(id); 
@@ -46,6 +48,7 @@ public class PedidoService {
 	public Pedido insert(Pedido obj) {
 		obj.setId(null);
 		obj.setInstante(new Date());
+		obj.setCliente(clienteService.find(obj.getCliente().getId()));
 		obj.getPagamento().setEstado(EstadoPagamento.PENDENTE);
 		obj.getPagamento().setPedido(obj);
 		
@@ -54,17 +57,18 @@ public class PedidoService {
 			boletoService.preencherPagamentoComBoleto(pagto, obj.getInstante()); 
 		}
 		
-		
 		obj = repo.save(obj); 
 		pagamentoRepository.save(obj.getPagamento()); 
 		for (ItemPedido ip : obj.getItens()) {
 			ip.setDesconto(0.0);
-			ip.setPreco(produtoService.find(ip.getProduto().getId()).getPreco());
+			ip.setProduto(produtoService.find(ip.getProduto().getId()));
+			ip.setPreco(ip.getProduto().getPreco());
 			ip.setPedido(obj);
 		}
 		itemPedidoRepository.saveAll(obj.getItens());
-		return obj;
 		
+		System.out.println(obj);
+		return obj;
 	}
 	
 }
