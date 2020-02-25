@@ -18,7 +18,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	private static final String[] PUBLIC_MATCHERS = { "/localhost:8080/**"};
 
-	private static final String[] PUBLIC_MATCHERS_GET = {"/produtos/**", "/categorias/**"};
+	private static final String[] PUBLIC_MATCHERS_GET = {"/produtos/**", "/categorias/**", "/clientes/**"};
 
 	
 	@Override
