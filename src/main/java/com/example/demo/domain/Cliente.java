@@ -47,7 +47,7 @@ public class Cliente implements Serializable{
 	private Set<String> telefones = new HashSet<>();
 	
 	@ElementCollection(fetch = FetchType.EAGER)
-	@CollectionTable(name = "perfis")
+	@CollectionTable(name = "PERFIS")
 	private Set<Integer> perfis = new HashSet<>();
 	
 	@JsonIgnore
@@ -58,7 +58,7 @@ public class Cliente implements Serializable{
 		addPerfil(Perfil.CLIENTE);
 	}
 
-	public Cliente(Integer id, String nome, String email,String cpf_ou_cnpj,   TipoCliente tipo, String senha) {
+	public Cliente(Integer id, String nome, String email,String cpf_ou_cnpj, TipoCliente tipo, String senha) {
 		super();
 		this.id = id;
 		this.nome = nome;

@@ -13,15 +13,14 @@ import com.example.demo.domain.enums.Perfil;
 public class UserSS implements UserDetails {
 	private static final long serialVersionUID = 1L;
 	
-	private Integer id;
+	private Integer id; 
 	private String email;
-	private String senha;
+	private String senha; 
 	private Collection<? extends GrantedAuthority> authorities;
 	
-	public UserSS (){
-		
+	public UserSS() {
 	}
-		
+	
 	public UserSS(Integer id, String email, String senha, Set<Perfil> perfis) {
 		super();
 		this.id = id;
@@ -29,13 +28,11 @@ public class UserSS implements UserDetails {
 		this.senha = senha;
 		this.authorities = perfis.stream().map(x -> new SimpleGrantedAuthority(x.getDescricao())).collect(Collectors.toList());
 	}
-
-
-
+	
 	public Integer getId() {
-		return id; 
+		return id;
 	}
-
+	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		return authorities;
@@ -58,7 +55,7 @@ public class UserSS implements UserDetails {
 
 	@Override
 	public boolean isAccountNonLocked() {
-		return false;
+		return true;
 	}
 
 	@Override
@@ -70,5 +67,4 @@ public class UserSS implements UserDetails {
 	public boolean isEnabled() {
 		return true;
 	}
-
 }
